@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 Vue.use(Router)
 
 /* Layout */
@@ -49,112 +48,113 @@ export const constantRoutes = [
     redirect: '/dashboard',
     children: [{
       path: 'dashboard',
-      name: 'Dashboard',
+      name: 'dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '我的主页', icon: 'dashboard',requiresAuth: true }
     }]
   },
 
   {
-    path: '/example',
+    path: '/fileManagement',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
-    children: [
+    redirect: '/fileManagement/waitApproval',
+    name: 'fileManagement',
+    meta: { title: '会议管理', icon: 'example' },
+    children: [     
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        path: 'waitApproval',
+        name: 'waitApproval',
+        component: () => import('@/views/tree/index'),
+        meta: { title: '会议列表', icon: 'tree' }
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        path: 'allFiles',
+        name: 'allFiles',
+        component: () => import('@/views/table/index1'),
+        meta: { title: '新建会议', icon: 'table' }
+      },
+      {
+        path: 'meetingDetails',
+        name: 'meetingDetails',
+        component: () => import('@/views/table/meetingDetails'),
+        meta: { title: '会议详情', icon: 'table' },
+        hidden:true
       }
     ]
   },
 
   {
-    path: '/form',
+    path: '/meetings',
     component: Layout,
     children: [
       {
         path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        name: 'meetings',
+        component: () => import('@/views/form/index1'),
+        meta: { title: '文件管理', icon: 'form' }
       }
     ]
   },
 
   {
-    path: '/nested',
+    path: '/system',
     component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
+    redirect: '/system/personalInformation/myInformation',
+    name: 'system',
     meta: {
-      title: 'Nested',
+      title: '系统管理',
       icon: 'nested'
     },
     children: [
       {
-        path: 'menu1',
+        path: 'personalInformation',
         component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
+        name: 'personalInformation',
+        meta: { title: '个人信息', icon: 'user'},
+        redirect: '/system/personalInformation/myInformation',
         children: [
           {
-            path: 'menu1-1',
+            path: 'myInformation',
             component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
+            name: 'myInformation',
+            meta: { title: '我的信息',icon: 'user' }
           },
           {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
+            path: 'changeInformation',
             component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
+            name: 'changeInformation',
+            meta: { title: '信息修改',icon: 'table' }
           }
         ]
       },
       {
-        path: 'menu2',
+        path: 'systemSetup',
         component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'menu2' }
+        meta: { title: '系统设置',icon: 'tree' }
       }
     ]
   },
 
+  // {
+  //   path: 'auxiliary',
+  //   component: () => import('@/views/nested/menu1/menu1-3'),
+  //   meta: { title: '辅助管理' }
+  //   children: [
+  //     {
+  //       path: 'auxiliary',
+  //       meta: { title: 'External Link', icon: 'link' }
+  //     }
+  //   ]
+  // },
   {
-    path: 'external-link',
+    path: '/auxiliary',
     component: Layout,
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        path: 'index',
+        name: 'auxiliary',
+        component: () => import('@/views/auxiliary/index'),
+        meta: { title: '辅助管理', icon: 'form' }
       }
     ]
   },
@@ -164,13 +164,11 @@ export const constantRoutes = [
 ]
 
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
+  mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })
-
 const router = createRouter()
-
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
   const newRouter = createRouter()

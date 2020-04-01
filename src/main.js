@@ -11,10 +11,13 @@ import '@/styles/index.scss' // global css
 import App from './App'
 import store from './store'
 import router from './router'
-
+import axios from 'axios'
+Vue.prototype.$http = axios
 import '@/icons' // icon
 import '@/permission' // permission control
 
+import Qs from "qs"
+Vue.prototype.qs = Qs;
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -29,7 +32,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // set ElementUI lang to EN
-Vue.use(ElementUI, { locale })
+Vue.use(ElementUI)
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
 

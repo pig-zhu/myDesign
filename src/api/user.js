@@ -1,24 +1,39 @@
 import request from '@/utils/request'
-
+const baseUrl = 'http://localhost:8089/ssmIntegration_war_exploded/'
 export function login(data) {
   return request({
-    url: '/vue-admin-template/user/login',
+    url: `${baseUrl}login.do`,
     method: 'post',
+    headers:{
+      'Content-Type':'application/x-www-form-urlencoded'
+    },
     data
   })
 }
 
-export function getInfo(token) {
+export function getInfo() {
   return request({
-    url: '/vue-admin-template/user/info',
-    method: 'get',
-    params: { token }
+    url: `${baseUrl}getUserInfo.do`,
+    method: 'post',
+    headers:{
+      'Content-Type':'application/json;charset=utf-8'
+    }
   })
 }
 
-export function logout() {
+export function findAll(){
   return request({
-    url: '/vue-admin-template/user/logout',
-    method: 'post'
+    url:`${baseUrl}findAll.do`,
+    method:'post'
+  })
+}
+export function del(data){
+  return request({
+    url:`${baseUrl}delUser.do`,
+    method:'post',
+    headers:{
+      'Content-Type':'application/x-www-form-urlencoded'
+    },
+    data
   })
 }
